@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 import provider from '../models/Provider.js'
+import client from '../Whatsapp/Notify.js';
 
 export const getProviders = async (req, res) => {
     try {
@@ -17,8 +18,15 @@ export const createProvider = async (req, res) => {
     const newProvider = new provider(Provider);
     try {
         await newProvider.save();
-
         res.status(201).json(newProvider);
+        client.messages
+            .create({
+                body: `Hi ${newProvider.name}, You have successfully registered yourself. Thank you!`,
+                from: 'whatsapp:+14155238886',
+                to: 'whatsapp:+918169997094'
+            })
+            .then(message => console.log(message.sid))
+            .done();
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
@@ -32,5 +40,5 @@ export const updateProvider = async (req, res) => {
 
     const updatedProvider = await provider.findByIdAndUpdate(_id, { ...Provider, _id }, { new: true });
 
-    res.json(updatedProvider);
+    res.status(202).json(updatedProvider);
 }
