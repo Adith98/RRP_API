@@ -5,6 +5,7 @@ import 'dotenv/config.js';
 
 import providerRoutes from './routes/Provider.js';
 import requesterRoutes from './routes/Requester.js';
+import requestsRoutes from './routes/Requests.js';
 
 //Initialization
 const app = express();
@@ -17,6 +18,7 @@ app.use(cors());
 //Import Routes
 app.use('/provider',providerRoutes);
 app.use('/requester',requesterRoutes);
+app.use('/requests',requestsRoutes);
 
 const PORT = process.env.PORT || 3000;
 //Connect to Database
