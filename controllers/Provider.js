@@ -22,8 +22,8 @@ export const createProvider = async (req, res) => {
         client.messages
             .create({
                 body: `Hi ${newProvider.name}, You have successfully registered yourself. Thank you!`,
-                from: 'whatsapp:+14155238886',
-                to: 'whatsapp:+918169997094'
+                from: 'whatsapp:' + process.env.from,
+                to: `whatsapp:+1${newProvider.phone}`
             })
             .then(message => console.log(message.sid))
             .done();
